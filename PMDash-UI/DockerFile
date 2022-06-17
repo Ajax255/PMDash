@@ -1,28 +1,20 @@
-ARG TAG=16-alpine
-ARG VITE_REPO=https://github.com/vitejs/vite.git
-ARG VITE_DIR=vite
-
-FROM node:$TAG
-
-ENV VITE_REPO=$VITE_REPO
-ENV VITE_DIR=$VITE_DIR
+FROM node:current-alpine as build-stage
 
 WORKDIR /app
 
-# Install packages
-RUN set -eux; \
-    # Packages to install
-    apk add --no-cache \
-        git \
-        python3 \
-        make \
-        g++ \
-    && \
-    # Clean out directories that don't need to be part of the image
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && \
-    npm install -g pnpm
+COPY package.json .
 
-CMD ["pnpm run dev"]
+RUN npm install
 
-ENTRYPOINT ["/bin/sh"]
+COPY . .
+
+RUN npm run build
+
+FROM nginx:stable-alpine as production-stage
+
+COPY --from=build-stage /app/docker-nginx.conf /etc/nginx/con.d/default.conf
+COPY --from=build-stage /app/dist /user/share/nginx/html
+
+EXPOSE 4040
+
+CMD ["nginx", "-g", "daemon off;"]

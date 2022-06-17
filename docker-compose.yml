@@ -1,0 +1,35 @@
+version: '3.9'
+services:
+  ui:
+    build: ./PMDash-UI
+    image: pmdash-ui:latest
+    container_name: pmdash-ui
+    restart: unless-stopped
+    ports: 
+      - "4040:80"
+    expose:
+      - "80"
+    environment:
+      - PMDASH_API_URL=${PMDASH_API_URL}
+    mem_limit: ${UI_MEM_LIMIT}
+    networks:
+      - pmdash
+  
+  api:
+    build: ./PMDash-api
+    image: pmdash-api:latest
+    container_name: pmdash-api
+    restart: unless-stopped
+    ports: 
+      - "5050:80"
+    expose:
+      - "80"
+    environment:
+      - PMDASH_MONGO_URL=${PMDASH_MONGO_URL}
+    mem_limit: ${API_MEM_LIMIT}
+    networks:
+      - pmdash
+
+networks:
+  pmdash:
+    name: pmdash 
