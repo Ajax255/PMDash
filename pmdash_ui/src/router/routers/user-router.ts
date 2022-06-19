@@ -1,5 +1,5 @@
-import { RouteRecordRaw } from 'vue-router'
-import PageNotFound from '../../views/PageNotFound.vue'
+import { RouteRecordRaw } from 'vue-router';
+import PageNotFound from '../../views/PageNotFound.vue';
 
 const UserRouter: Array<RouteRecordRaw> = [
   // {
@@ -21,5 +21,5 @@ const UserRouter: Array<RouteRecordRaw> = [
     path: '/:pathMatch(.*)*',
     redirect: '/page-not-found',
   },
-]
-export default UserRouter
+];
+export default UserRouter;

@@ -1,5 +1,5 @@
-import { RouteRecordRaw } from 'vue-router'
-import QuickView from '../../views/QuickView.vue'
+import { RouteRecordRaw } from 'vue-router';
+import QuickView from '../../views/QuickView.vue';
 const DashboardRouter: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -13,5 +13,5 @@ const DashboardRouter: Array<RouteRecordRaw> = [
       },
     ],
   },
-]
-export default DashboardRouter
+];
+export default DashboardRouter;
