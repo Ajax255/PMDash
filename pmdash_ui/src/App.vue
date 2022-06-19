@@ -1,9 +1,7 @@
-<script setup lang="ts">
-console.log('running')
-</script>
+<script setup lang="ts" />
 
 <template>
-  <h1 class="text-3xl font-bold underline">Hello world!</h1>
+  <router-view />
 </template>
 
 <style>
@@ -13,6 +11,5 @@ console.log('running')
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

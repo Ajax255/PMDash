@@ -5,16 +5,9 @@ module.exports = {
     node: true,
   },
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
     'plugin:vue/vue3-essential',
     'prettier',
   ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-  },
-  plugins: ['@typescript-eslint'],
   rules: {
     'vue/no-unused-vars': 'error',
   },
