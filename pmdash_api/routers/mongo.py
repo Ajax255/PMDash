@@ -11,6 +11,21 @@ def read_root():
     return {"Hello": "World"}
 
 
+@router.post('/create')
+async def read_search(payload):
+    print('create', payload)
+
+
 @router.get('/search')
 async def read_search(search:  Union[str, None] = None):
-    print('working', search)
+    print('search', search)
+
+
+@router.get('/update')
+async def read_search(ids:  Union[str, list[str], None] = None):
+    print('update', ids)
+
+
+@router.get('/delete')
+async def read_search(ids:  Union[str, list[str], None] = None):
+    print('delete', ids)

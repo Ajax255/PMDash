@@ -13,14 +13,13 @@ const UserRouter: Array<RouteRecordRaw> = [
   //   component: () => import("@/views/auth/PasswordReset.vue")
   // },
   {
-    // the 404 route, when none of the above matches
-    path: '/404',
-    name: 'error-404',
+    path: '/page-not-found',
+    name: 'Page-Not-Found',
     component: PageNotFound,
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: '/404',
+    redirect: '/page-not-found',
   },
 ]
 export default UserRouter
