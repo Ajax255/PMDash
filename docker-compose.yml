@@ -1,34 +1,50 @@
 version: '3.9'
 services:
   ui:
-    build: ./PMDash-UI
-    image: pmdash-ui:latest
+    build: pmdash_ui/
     container_name: pmdash-ui
-    restart: unless-stopped
     ports: 
-      - "4040:80"
+      - "${UI_HOST_EXPOSED}:${UI_PORT_EXPOSED}"
     expose:
-      - "80"
+      - ${UI_PORT_EXPOSED}
     environment:
-      - PMDASH_API_URL=${PMDASH_API_URL}
+      - API_URL=${API_URL}
     mem_limit: ${UI_MEM_LIMIT}
     networks:
       - pmdash
   
   api:
-    build: ./PMDash-api
-    image: pmdash-api:latest
+    build: pmdash_api/
     container_name: pmdash-api
-    restart: unless-stopped
     ports: 
-      - "5050:80"
+      - "${API_HOST_EXPOSED}:${API_PORT_EXPOSED}"
     expose:
-      - "80"
+      - ${API_PORT_EXPOSED}
     environment:
-      - PMDASH_MONGO_URL=${PMDASH_MONGO_URL}
+      - MONGO_URL=${MONGO_URL}
+      - MONGO_PORT=${MONGO_PORT_EXPOSED}
+      - MONGO_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_CLUSTER_NAME=${MONGO_CLUSTER_NAME}
     mem_limit: ${API_MEM_LIMIT}
     networks:
       - pmdash
+  
+  mongodb:
+    image: mongo:latest
+    container_name: pmdash-mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    ports:
+      - ${MONGO_HOST_EXPOSED}:${MONGO_PORT_EXPOSED}
+    volumes:
+      - mongodb_data_container:/data/db
+    networks:
+      - pmdash
+
+volumes:
+  mongodb_data_container:
 
 networks:
   pmdash:

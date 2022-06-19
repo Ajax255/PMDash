@@ -1,6 +1,8 @@
 from typing import Union
 from fastapi import APIRouter
 
+import wrappers.mongodb as mongodb
+
 router = APIRouter(tags=['Mongo'])
 
 

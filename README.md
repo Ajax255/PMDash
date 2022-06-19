@@ -16,6 +16,19 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
 
+## Run UI 
+```
+npm run dev
+```
+```
+docker build -t pmdash-ui .
+```
 
 ## Run API
+```
 uvicorn main:app --reload --host 0.0.0.0 --port 5050
+```
+```
+docker build -t pmdash-api .
+```
+

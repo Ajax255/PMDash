@@ -13,7 +13,7 @@ RUN npm run build
 FROM nginx:stable-alpine as production-stage
 
 COPY --from=build-stage /app/docker-nginx.conf /etc/nginx/con.d/default.conf
-COPY --from=build-stage /app/dist /user/share/nginx/html
+COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 EXPOSE 4040
 
