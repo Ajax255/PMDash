@@ -6,3 +6,4 @@ python-dotenv~=0.19.2
 uvicorn==0.17.6
 pymongo==4.1.1
 python_dateutil==2.8.2
+pydantic==1.9.1

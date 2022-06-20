@@ -16,11 +16,16 @@
     "@typescript-eslint/parser": "^5.28.0",
     "@vue-hero-icons/outline": "^1.7.2",
     "@vue-hero-icons/solid": "^1.7.2",
+    "axios": "^0.27.2",
+    "lodash.clonedeep": "^4.5.0",
     "pinia": "^2.0.14",
+    "uuid": "^8.3.2",
     "vue": "^3.2.25",
     "vue-router": "^4.0.16"
   },
   "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@types/uuid": "^8.3.4",
     "@vitejs/plugin-vue": "^2.3.3",
     "autoprefixer": "10.4.5",
     "eslint": "^8.18.0",

@@ -26,6 +26,9 @@ docker build -t pmdash-ui .
 
 ## Run API
 ```
+pip3 install -r requirements.txt 
+```
+```
 uvicorn main:app --reload --host 0.0.0.0 --port 5050
 ```
 ```

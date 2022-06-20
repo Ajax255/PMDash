@@ -12,7 +12,8 @@ module.exports = {
     'plugin:vue/recommended',
     'prettier',
   ],
-  parser: '@typescript-eslint/parser',
+  parser: 'vue-eslint-parser',
+  parserOptions: { parser: '@typescript-eslint/parser' },
   ignorePatterns: ['node_modules/'],
   rules: {
     'vue/no-unused-vars': 'error',

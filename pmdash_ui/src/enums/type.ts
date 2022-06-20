@@ -3,5 +3,6 @@ export enum Type {
   story = 'Story',
   task = 'Task',
   subTask = 'Sub Task',
+  bug = 'Bug',
   research = 'Research',
 }
