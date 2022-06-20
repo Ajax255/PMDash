@@ -1,28 +1,28 @@
 from uuid import uuid4
 from typing import List
+from models.task import Task
 from datetime import datetime
 from pydantic import BaseModel
 
-import models.task as task
-
 
 class Project(BaseModel):
-    uuid: str
+    _id: str
     title: str
-    subject: str
+    application: str
+    description: str
     members: List[str]
     created: datetime
     status: str
-    tasks: List[task.Task]
-    research: List[task.Task]
-    epics: List[task.Task]
-    stories: List[task.Task]
-    bugs: List[task.Task]
-    subtask: List[task.Task]
-    inBackLog: List[task.Task]
-    opentask: List[task.Task]
-    closedtask: List[task.Task]
-    inProgresstask: List[task.Task]
-    inReviewtask: List[task.Task]
-    testingtask: List[task.Task]
-    blockedtask: List[task.Task]
+    tasks: List[Task]
+    research: List[Task]
+    epics: List[Task]
+    stories: List[Task]
+    bugs: List[Task]
+    subtask: List[Task]
+    inBackLog: List[Task]
+    opentask: List[Task]
+    closedtask: List[Task]
+    inProgresstask: List[Task]
+    inReviewtask: List[Task]
+    testingtask: List[Task]
+    blockedtask: List[Task]

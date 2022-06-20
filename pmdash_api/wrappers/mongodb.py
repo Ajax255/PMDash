@@ -1,4 +1,6 @@
 import os
+import json
+from typing import Dict
 from dotenv import load_dotenv, find_dotenv
 from pymongo import MongoClient
 
@@ -14,7 +16,7 @@ PORT = os.environ.get('MONGO_PORT_EXPOSED')
 
 CONNECTION_STRING = f"mongodb://{USER}:{PASSWORD}@{HOST}:{PORT}"
 
-# print(f' CONNECTION_STRING:{CONNECTION_STRING}')
+print(f' CONNECTION_STRING:{CONNECTION_STRING}')
 
 client = MongoClient(CONNECTION_STRING)
 
@@ -41,41 +43,41 @@ def insert_bulk(data_base: str, collection: str, insert_docs: list[dict]):
     collection.insert_many(insert_docs)
 
 
-def find_one(data_base: str, collection: str, query: str):
+def find_one(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
     collection.find_one(query)
 
 
-def find(data_base: str, collection: str, query: str):
+def find(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
     collection.find(query)
 
 
-def count(data_base: str, collection: str, query: str):
+def count(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
     collection.count_documents(query)
 
 
-def update_one(data_base: str, collection: str, query: str):
+def update_one(data_base: str, collection: str, query: dict, update: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.update_one(query)
+    collection.update_one(query, update)
 
 
-def update_may(data_base: str, collection: str, query: str):
+def update_may(data_base: str, collection: str, query: dict, update: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.update_many(query)
+    collection.update_many(query, update)
 
 
-def replace_one(data_base: str, collection: str, query: str):
+def replace_one(data_base: str, collection: str, query: dict, insert_doc: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.replace_one(query)
+    collection.replace_one(query, insert_doc)
 
 
-def delete_one(data_base: str, collection: str, query: str):
+def delete_one(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
     collection.delete_one(query)
 
 
-def delete_many(data_base: str, collection: str, query: str):
+def delete_many(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
     collection.delete_many(query)

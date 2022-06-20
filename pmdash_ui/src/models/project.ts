@@ -3,9 +3,10 @@ import { Status } from '../enums/status';
 import Task from './task';
 
 export default class Project {
-  uuid = uuidv4();
-  title = '';
-  subject = '';
+  _id = uuidv4();
+  title = 'test';
+  application = '';
+  description = 'test area';
   members: string[] = [];
   created = new Date();
   status = Status.open;

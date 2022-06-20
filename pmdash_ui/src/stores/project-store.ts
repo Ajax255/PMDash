@@ -18,7 +18,8 @@ export const useProjectStore = defineStore('Project', {
       console.log(resp);
     },
     async createProject(project: Project) {
-      const resp = await PMDASH_API_CLIENT.post(`projects/create`);
+      console.log('createProject', project);
+      const resp = await PMDASH_API_CLIENT.post(`projects/create`, project);
       console.log(resp);
     },
     async updateProject(uuid: string, {}) {

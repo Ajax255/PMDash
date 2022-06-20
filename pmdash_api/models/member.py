@@ -1,8 +1,8 @@
 from pydantic import BaseModel
 
 
-class Memeber(BaseModel):
-    uuid: str
+class Member(BaseModel):
+    _id: str
     name: str
     handle: str
     imageUrl: str

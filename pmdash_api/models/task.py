@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class Task(BaseModel):
-    uuid: str
+    _id: str
     title: str
     type: str
     priority: str
@@ -17,4 +17,4 @@ class Task(BaseModel):
     subTaskes: List[str]
     assigned: str
     created: datetime
-    subTasks: List['Task'] = None
+    subTasks: List['Task']

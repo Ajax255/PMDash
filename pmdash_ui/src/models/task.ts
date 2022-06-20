@@ -4,7 +4,7 @@ import { Status } from '../enums/status';
 import { Priority } from '../enums/priority';
 
 export default class Task {
-  uuid = uuidv4();
+  _id = uuidv4();
   title = '';
   type = Type.task;
   priority = Priority.low;

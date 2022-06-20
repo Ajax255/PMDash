@@ -1,8 +1,8 @@
 from fastapi import APIRouter
+from models.task import Task
 from dotenv import load_dotenv, find_dotenv
 
 import os
-import models.task as task
 import wrappers.mongodb as mongodb
 
 # Used to load .env for local envion. (Dev Environments
@@ -15,31 +15,44 @@ router = APIRouter(prefix='/tasks', tags=['Task'])
 
 
 @router.post('/create')
-async def create_task(task: task.Task):
+async def create_task(task: Task):
     print('create', task)
-    return mongodb.insert(data_base=DATABASE, collection=TASKS_COLLECTION)
+    return mongodb.insert(data_base=DATABASE, collection=TASKS_COLLECTION, insert_doc=task.dict())
 
 
-@router.get('/search-by-id')
-async def search_by_id(query: str):
+@router.get('/search-for-task')
+async def search_for_one(searchTerm: str, fields: list[str]):
+    query = {}
+
+    for field in fields:
+        query[field] = searchTerm
+
     print('search', query)
-    return mongodb.find_one(data_base=DATABASE, collection=TASKS_COLLECTION)
+    return mongodb.find_one(data_base=DATABASE, collection=TASKS_COLLECTION, query=query)
 
 
-@router.get('/search-all')
-async def search_tasks(query: str):
+@router.get('/search-all-tasks')
+async def search_tasks(searchTerm: str, fields: list[str]):
+    query = {}
+
+    for field in fields:
+        query[field] = searchTerm
+
     print('search', query)
-    return mongodb.find(data_base=DATABASE, collection=TASKS_COLLECTION)
+    return mongodb.find(data_base=DATABASE, collection=TASKS_COLLECTION, query=query)
 
 
 @router.patch('/update')
 async def update_task(uuid: str, patch: dict):
-    print('update', uuid)
-    print('patch', patch)
-    return mongodb.update_one(data_base=DATABASE, collection=TASKS_COLLECTION)
+    query = {'_id': uuid}
+    update = {"$set": patch}
+    print('update', query)
+    print('update', update)
+    return mongodb.update_one(data_base=DATABASE, collection=TASKS_COLLECTION, query=query, update=update)
 
 
 @router.delete('/delete')
 async def delete_task(uuid: str):
-    print('delete', uuid)
-    return mongodb.delete_one(data_base=DATABASE, collection=TASKS_COLLECTION)
+    query = {'_id': uuid}
+    print('delete', query)
+    return mongodb.delete_one(data_base=DATABASE, collection=TASKS_COLLECTION, query=query)

@@ -1,17 +1,14 @@
 from fastapi import FastAPI
-from dotenv import load_dotenv, find_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 
 from routers import pmdash_router
 from routers import project_router
 from routers import task_router
 
-load_dotenv(find_dotenv())
-
 app = FastAPI(title="PMDash-API", version="0.1.0")
 
 origins = [
-    'http://localhost:5050',
+    'http://localhost:4040',
     'http://ui:4040',
     '*'
 ]
