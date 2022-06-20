@@ -324,10 +324,12 @@
 
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import Task from '../models/task';
 import { useTaskStore } from '../stores/task-store';
-import { useRoute } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
 const taskStore = useTaskStore();
 
 const loading = ref(true);
@@ -336,13 +338,25 @@ const loadingError = ref(false);
 const getData = async () => {
   try {
     loading.value = true;
-    const res = await taskStore.fetchTask(route.params.uuid as string);
+    const res = await taskStore.searchTaskByID(route.params.uuid as string);
     console.log(res);
   } catch (error) {
     loadingError.value = true;
   } finally {
     loading.value = false;
   }
+};
+
+const createTask = async (task: Task) => {
+  const res = await taskStore.createTask(task);
+  router.push({ path: '/' });
+  console.log(res);
+};
+
+const updateTask = async (uuid: string, task: Task) => {
+  const res = await taskStore.updateTask(uuid, task);
+  router.push({ path: `/task/:${uuid}` });
+  console.log(res);
 };
 
 onBeforeMount(() => {

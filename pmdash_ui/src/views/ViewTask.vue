@@ -8,10 +8,11 @@
 
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useTaskStore } from '../stores/task-store';
-import { useRoute } from 'vue-router';
 
 const route = useRoute();
+const router = useRouter();
 const taskStore = useTaskStore();
 
 const loading = ref(true);
@@ -20,12 +21,18 @@ const loadingError = ref(false);
 const getData = async () => {
   try {
     loading.value = true;
-    taskStore.fetchTask(route.params.uuid as string);
+    taskStore.searchTaskByID(route.params.uuid as string);
   } catch (error) {
     loadingError.value = true;
   } finally {
     loading.value = false;
   }
+};
+
+const deleteTask = async (uuid: string) => {
+  const res = await taskStore.deleteTask(uuid);
+  router.push({ path: `/task/:${uuid}` });
+  console.log(res);
 };
 
 onBeforeMount(() => {

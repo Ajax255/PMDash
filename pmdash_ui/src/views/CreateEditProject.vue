@@ -324,10 +324,12 @@
 
 <script setup lang="ts">
 import { ref, onBeforeMount } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import Project from '../models/project';
 import { useProjectStore } from '../stores/project-store';
 
 const route = useRoute();
+const router = useRouter();
 const projectStore = useProjectStore();
 
 const loading = ref(true);
@@ -337,7 +339,7 @@ const getData = async () => {
   try {
     loading.value = true;
     if (route.params.uuid) {
-      const res = await projectStore.fetchProject(route.params.uuid as string);
+      const res = await projectStore.searchProjectByID(route.params.uuid as string);
       console.log(res);
     }
   } catch (error) {
@@ -345,6 +347,18 @@ const getData = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+const createProject = async (project: Project) => {
+  const res = await projectStore.createProject(project);
+  router.push({ path: '/' })
+  console.log(res);
+};
+
+const updateProject = async (uuid: string, project: Project) => {
+  const res = await projectStore.updateProject(uuid, project);
+  router.push({ path: `/project/:${uuid}` })
+  console.log(res);
 };
 
 onBeforeMount(() => {

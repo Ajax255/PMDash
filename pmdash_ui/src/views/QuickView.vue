@@ -162,8 +162,8 @@ const loadingError = ref(false);
 const getData = async () => {
   try {
     loading.value = true;
-    pmDashStore.fetchAllMembers();
-    pmDashStore.fetchAllTeams();
+    pmDashStore.searchAllMembers();
+    pmDashStore.searchAllTeams();
   } catch (error) {
     loadingError.value = true;
   } finally {

@@ -9,12 +9,12 @@ export const useProjectStore = defineStore('Project', {
   }),
   getters: {},
   actions: {
-    async fetchProject(uuid: string) {
-      const resp = await PMDASH_API_CLIENT.get(`projects/fetch-by-id?uuid${uuid}`);
+    async searchProjectByID(uuid: string) {
+      const resp = await PMDASH_API_CLIENT.get(`projects/search-by-id?uuid${uuid}`);
       console.log(resp);
     },
-    async fetchAllProjects(uuid: string) {
-      const resp = await PMDASH_API_CLIENT.get(`projects/fetch-all?uuid${uuid}`);
+    async searchAllProjects(uuid: string) {
+      const resp = await PMDASH_API_CLIENT.get(`projects/search-all?uuid${uuid}`);
       console.log(resp);
     },
     async createProject(project: Project) {

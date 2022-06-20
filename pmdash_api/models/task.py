@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 
 class Task(BaseModel):
-    uuid: uuid4
+    uuid: str
     title: str
     type: str
     priority: str

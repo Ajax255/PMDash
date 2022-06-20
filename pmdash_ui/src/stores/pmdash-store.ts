@@ -10,20 +10,20 @@ export const usePMDashStore = defineStore('PMDash', {
   }),
   getters: {},
   actions: {
-    async fetchMember(uuid: string) {
-      const resp = await PMDASH_API_CLIENT.get(`pmdash/fetch-member?uuid=${uuid}`);
+    async searchMemberByID(uuid: string) {
+      const resp = await PMDASH_API_CLIENT.get(`pmdash/search-member?uuid=${uuid}`);
       console.log(resp);
     },
-    async fetchAllMembers() {
-      const resp = await PMDASH_API_CLIENT.get(`pmdash/fetch-members`);
+    async searchAllMembers() {
+      const resp = await PMDASH_API_CLIENT.get(`pmdash/search-all-members`);
       console.log(resp);
     },
-    async fetchTeam(uuid: string) {
-      const resp = await PMDASH_API_CLIENT.get(`pmdash/fetch-team?uuid=${uuid}`);
+    async searchTeamByID(uuid: string) {
+      const resp = await PMDASH_API_CLIENT.get(`pmdash/search-team?uuid=${uuid}`);
       console.log(resp);
     },
-    async fetchAllTeams() {
-      const resp = await PMDASH_API_CLIENT.get(`pmdash/fetch-teams`);
+    async searchAllTeams() {
+      const resp = await PMDASH_API_CLIENT.get(`pmdash/search-all-teams`);
       console.log(resp);
     },
     async createMember(member: Member) {

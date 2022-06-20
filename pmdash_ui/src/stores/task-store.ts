@@ -24,12 +24,12 @@ export const useTaskStore = defineStore('daseboard', {
     // },
   },
   actions: {
-    async fetchTask(uuid: string) {
-      const resp = await PMDASH_API_CLIENT.get(`tasks/fetch-by-id?uuid${uuid}`);
+    async searchTaskByID(uuid: string) {
+      const resp = await PMDASH_API_CLIENT.get(`tasks/search-by-id?uuid${uuid}`);
       console.log(resp);
     },
-    async fetchAllTasksOfProject(uuid: string) {
-      const resp = await PMDASH_API_CLIENT.get(`tasks/fetch-all?uuid${uuid}`);
+    async searchAllTasksOfProject(uuid: string) {
+      const resp = await PMDASH_API_CLIENT.get(`tasks/search-all?uuid${uuid}`);
       console.log(resp);
     },
     async createTask(task: Task) {

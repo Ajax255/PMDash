@@ -1,20 +1,16 @@
-from ast import Num
-import json
 import os
-from dotenv import load_dotenv
-import pymongo
+from dotenv import load_dotenv, find_dotenv
 from pymongo import MongoClient
 
-# load_dotenv()
+# Used to load .env for local envion. (Dev Environments
+load_dotenv(find_dotenv())
 
 USER = os.environ.get('MONGO_ROOT_USERNAME')
 PASSWORD = os.environ.get('MONGO_ROOT_PASSWORD')
 CLUSTER_NAME = os.environ.get('MONGO_CLUSTER_NAME')
 
 HOST = os.environ.get('MONGO_URL')
-PORT = os.environ.get('MONGO_PORT')
-
-# print(f'USER:{USER} PASSWORD:{PASSWORD} CLUSTER_NAME:{CLUSTER_NAME} HOST:{HOST} PORT:{PORT}')
+PORT = os.environ.get('MONGO_PORT_EXPOSED')
 
 CONNECTION_STRING = f"mongodb://{USER}:{PASSWORD}@{HOST}:{PORT}"
 
@@ -35,12 +31,12 @@ def get_collection(data_base: str, collection: str):
     return collection
 
 
-def insert(data_base: str, collection: str, insert_doc: str):
+def insert(data_base: str, collection: str, insert_doc: dict):
     collection = get_collection(data_base=data_base, collection=collection)
     collection.insert_one(insert_doc)
 
 
-def insert_bulk(data_base: str, collection: str, insert_docs: list[str]):
+def insert_bulk(data_base: str, collection: str, insert_docs: list[dict]):
     collection = get_collection(data_base=data_base, collection=collection)
     collection.insert_many(insert_docs)
 
