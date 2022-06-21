@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import DashboardRouter from './routers/dashboard-router';
+import PMDashRouter from './routers/pmdash-router';
 import TaskRouter from './routers/task-router';
 import ProjectRouter from './routers/project-router';
 import UserRouter from './routers/user-router';
 
-const routes = [...DashboardRouter, ...ProjectRouter, ...TaskRouter, ...UserRouter];
+const routes = [...PMDashRouter, ...ProjectRouter, ...TaskRouter, ...UserRouter];
 
 const router = createRouter({
   history: createWebHistory(),

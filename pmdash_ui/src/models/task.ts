@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Type } from '../enums/type';
 import { Status } from '../enums/status';
 import { Priority } from '../enums/priority';

@@ -10,7 +10,7 @@ from utilities.utils import create_list
 import os
 import wrappers.mongodb as mongodb
 
-# Used to load .env for local envion. (Dev Environments
+# Used to load .env for local envion. (Dev Environments)
 load_dotenv(find_dotenv())
 
 DATABASE = os.environ.get('MONGO_DATABASE')
@@ -55,7 +55,6 @@ async def search_projects(searchTerm: Union[str, None] = None, fields: Union[lis
         for field in fields:
             query[field] = searchTerm
 
-    print('search', query)
     if (projects := await mongodb.find(data_base=DATABASE, collection=PROJECT_COLLECTION, query=query)) is not None:
         return projects
 
@@ -83,7 +82,6 @@ async def update_project(uuid: str, project: UpdateProject = Body(...)):
 
 @router.delete("/delete/{uuid}", response_description="Delete a Project")
 async def delete_project(uuid: str):
-    print('uuid', uuid)
     delete_result = await mongodb.delete_one(data_base=DATABASE, collection=PROJECT_COLLECTION, query={"_id": uuid})
 
     # if delete_result.deleted_count == 1:

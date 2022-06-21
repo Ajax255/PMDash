@@ -125,7 +125,7 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-100">
-            <tr v-for="project in projectStore.projects" :key="project.title">
+            <tr v-for="(project, index) in projectStore.projects" :key="index">
               <td class="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm font-medium text-gray-900">
                 <div class="flex items-center space-x-3 lg:pl-2">
                   <div :class="[project.bgColorClass, 'flex-shrink-0 w-2.5 h-2.5 rounded-full']" aria-hidden="true" />
@@ -164,7 +164,7 @@
                 <a :href="`/edit-project/${project['_id']}`" class="text-indigo-600 hover:text-indigo-900">Edit</a>
               </td>
               <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium" @click="deleteProject(project['_id'])">
-                delete
+                <component :is="TrashIcon" aria-hidden="true" class="text-gray-500 mr-3 flex-shrink-0 h-6 w-6" />
               </td>
             </tr>
           </tbody>
@@ -178,12 +178,13 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { ChevronRightIcon, DotsVerticalIcon } from '@heroicons/vue/solid';
 import { useProjectStore } from '../stores/project-store';
+import { TrashIcon } from '@heroicons/vue/outline';
 
 const projectStore = useProjectStore();
 const pinnedProjects = projectStore.projects.filter((project) => project.pinned);
-const deleteProject = (uuid: string) => {
-  projectStore.deleteProject(uuid);
-  projectStore.fetchAllProjects();
+const deleteProject = async (uuid: string) => {
+  await projectStore.deleteProject(uuid);
+  await projectStore.fetchAllProjects();
 };
 </script>
 

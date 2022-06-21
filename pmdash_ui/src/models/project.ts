@@ -1,12 +1,11 @@
-import { v4 as uuidv4 } from 'uuid';
 import { Status } from '../enums/status';
 import Member from './member';
 import Task from './task';
 
 export default class Project {
-  title = 'test';
+  title = '';
   application = '';
-  description = 'test area';
+  description = '';
   initials = '';
   pinned = false;
   bgColorClass = '';

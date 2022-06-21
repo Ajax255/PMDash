@@ -1,6 +1,6 @@
 import { RouteRecordRaw } from 'vue-router';
 import QuickView from '../../views/QuickView.vue';
-const DashboardRouter: Array<RouteRecordRaw> = [
+const PMDashRouter: Array<RouteRecordRaw> = [
   {
     path: '/',
     redirect: '/dashboard',
@@ -14,4 +14,4 @@ const DashboardRouter: Array<RouteRecordRaw> = [
     ],
   },
 ];
-export default DashboardRouter;
+export default PMDashRouter;

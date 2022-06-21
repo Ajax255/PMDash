@@ -12,27 +12,28 @@ export const useProjectStore = defineStore('Project', {
     async fetchAllProjects() {
       const resp = await PMDASH_API_CLIENT.get('projects/fetch-all-projects');
       this.projects = resp.data;
+      return resp;
     },
     async createProject(project: Project) {
       const resp = await PMDASH_API_CLIENT.post('projects/create', JSON.stringify(project));
+      return resp;
     },
-    // async def search_for_one(searchTerm: str, fields: list[str]):
     async searchForProject(uuid: string, fields: string[]) {
       const resp = await PMDASH_API_CLIENT.get(`projects/search-for-project?searchTerm=${uuid}&fields=${fields}`);
       this.project = resp.data;
+      return resp;
     },
-    async searchAllProjects(uuid: string) {
-      const resp = await PMDASH_API_CLIENT.get(`projects/search-all-projects?uuid${uuid}`);
-      console.log(resp);
+    async searchAllProjects(searchTerm: string, fields: string[]) {
+      const resp = await PMDASH_API_CLIENT.get(`projects/search-all-projects?searchTerm=${searchTerm}&fields=${fields}`);
+      return resp;
     },
     async updateProject(uuid: string, project: Project) {
-      console.log('Project', project);
       const resp = await PMDASH_API_CLIENT.put(`projects/update/${uuid}`, project);
-      console.log(resp);
+      return resp;
     },
     async deleteProject(uuid: string) {
       const resp = await PMDASH_API_CLIENT.delete(`projects/delete/${uuid}`);
-      console.log(resp);
+      return resp;
     },
   },
 });
