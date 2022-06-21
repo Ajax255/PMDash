@@ -19,6 +19,7 @@ CONNECTION_STRING = f"mongodb://{USER}:{PASSWORD}@{HOST}:{PORT}"
 print(f' CONNECTION_STRING:{CONNECTION_STRING}')
 
 client = MongoClient(CONNECTION_STRING)
+db = client.college
 
 # https://pymongo.readthedocs.io/en/stable/api/pymongo/collection.html visit to see what each operation does.
 
@@ -33,51 +34,51 @@ def get_collection(data_base: str, collection: str):
     return collection
 
 
-def insert(data_base: str, collection: str, insert_doc: dict):
+async def insert(data_base: str, collection: str, insert_doc):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.insert_one(insert_doc)
+    return collection.insert_one(insert_doc)
 
 
-def insert_bulk(data_base: str, collection: str, insert_docs: list[dict]):
+async def insert_bulk(data_base: str, collection: str, insert_docs: list[dict]):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.insert_many(insert_docs)
+    return collection.insert_many(insert_docs)
 
 
-def find_one(data_base: str, collection: str, query: dict):
+async def find_one(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.find_one(query)
+    return collection.find_one(query)
 
 
-def find(data_base: str, collection: str, query: dict):
+async def find(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.find(query)
+    return collection.find(query)
 
 
-def count(data_base: str, collection: str, query: dict):
+async def count(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.count_documents(query)
+    return collection.count_documents(query)
 
 
-def update_one(data_base: str, collection: str, query: dict, update: dict):
+async def update_one(data_base: str, collection: str, query: dict, update: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.update_one(query, update)
+    return collection.update_one(query, update)
 
 
-def update_may(data_base: str, collection: str, query: dict, update: dict):
+async def update_may(data_base: str, collection: str, query: dict, update: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.update_many(query, update)
+    return collection.update_many(query, update)
 
 
-def replace_one(data_base: str, collection: str, query: dict, insert_doc: dict):
+async def replace_one(data_base: str, collection: str, query: dict, insert_doc: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.replace_one(query, insert_doc)
+    return collection.replace_one(query, insert_doc)
 
 
-def delete_one(data_base: str, collection: str, query: dict):
+async def delete_one(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.delete_one(query)
+    return collection.delete_one(query)
 
 
-def delete_many(data_base: str, collection: str, query: dict):
+async def delete_many(data_base: str, collection: str, query: dict):
     collection = get_collection(data_base=data_base, collection=collection)
-    collection.delete_many(query)
+    return collection.delete_many(query)

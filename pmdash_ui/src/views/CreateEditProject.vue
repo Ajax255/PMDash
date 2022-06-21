@@ -7,7 +7,8 @@
         <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
           <div>
             <div>
-              <h3 class="text-lg leading-6 font-medium text-gray-900">New Project</h3>
+              <h3 v-if="!route.params.uuid" class="text-lg leading-6 font-medium text-gray-900">New Project</h3>
+              <h3 v-else class="text-lg leading-6 font-medium text-gray-900">Edit Project</h3>
               <!-- <p class="mt-1 max-w-2xl text-sm text-gray-500">
                 This information will be displayed publicly so be careful what you share.
               </p> -->
@@ -19,7 +20,7 @@
                 <div class="mt-1 sm:mt-0 sm:col-span-2">
                   <input
                     id="title"
-                    v-model="project.title"
+                    v-model="projectStore.project.title"
                     type="text"
                     class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   />
@@ -33,7 +34,7 @@
                 <div class="mt-1 sm:mt-0 sm:col-span-2">
                   <select
                     id="application"
-                    v-model="project.application"
+                    v-model="projectStore.project.application"
                     autocomplete="application"
                     class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                   >
@@ -51,7 +52,7 @@
                 <div class="mt-1 sm:mt-0 sm:col-span-2">
                   <textarea
                     id="discription"
-                    v-model="project.description"
+                    v-model="projectStore.project.description"
                     rows="3"
                     class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                   />
@@ -110,13 +111,13 @@ const projectStore = useProjectStore();
 
 const loading = ref(true);
 const loadingError = ref(false);
-const project = reactive(new Project());
 const getData = async () => {
   try {
     loading.value = true;
     if (route.params.uuid) {
-      const res = await projectStore.searchProjectByID(route.params.uuid as string);
-      console.log(res);
+      await projectStore.searchForProject(route.params.uuid as string, ['_id']);
+    } else {
+      projectStore.project = new Project();
     }
   } catch (error) {
     loadingError.value = true;
@@ -126,18 +127,21 @@ const getData = async () => {
 };
 
 const onSubmit = () => {
-  createProject(project);
+  if (route.params.uuid) {
+    updateProject();
+  } else {
+    createProject();
+  }
 };
 
-const createProject = async (project: Project) => {
-  const res = await projectStore.createProject(project);
+const createProject = async () => {
+  await projectStore.createProject(projectStore.project);
   router.push({ path: '/' });
-  console.log(res);
 };
 
-const updateProject = async (uuid: string, project: Project) => {
-  const res = await projectStore.updateProject(uuid, project);
-  router.push({ path: `/project/:${uuid}` });
+const updateProject = async () => {
+  const res = await projectStore.updateProject(route.params.uuid as string, projectStore.project);
+  router.push({ path: '/' });
   console.log(res);
 };
 

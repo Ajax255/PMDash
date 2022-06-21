@@ -79,14 +79,14 @@
         <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Projects</h2>
       </div>
       <ul role="list" class="mt-3 border-t border-gray-200 divide-y divide-gray-100">
-        <li v-for="project in projects" :key="project.id">
+        <li v-for="project in projectStore.projects" :key="project.title">
           <a href="#" class="group flex items-center justify-between px-4 py-4 hover:bg-gray-50 sm:px-6">
             <span class="flex items-center truncate space-x-3">
               <span :class="[project.bgColorClass, 'w-2.5 h-2.5 flex-shrink-0 rounded-full']" aria-hidden="true" />
               <span class="font-medium truncate text-sm leading-6">
                 {{ project.title }}
                 {{ ' ' }}
-                <span class="truncate font-normal text-gray-500">in {{ project.team }}</span>
+                <span class="truncate font-normal text-gray-500">in {{ project.application }}</span>
               </span>
             </span>
             <ChevronRightIcon class="ml-4 h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
@@ -125,7 +125,7 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-100">
-            <tr v-for="project in projects" :key="project.id">
+            <tr v-for="project in projectStore.projects" :key="project.title">
               <td class="px-6 py-3 max-w-0 w-full whitespace-nowrap text-sm font-medium text-gray-900">
                 <div class="flex items-center space-x-3 lg:pl-2">
                   <div :class="[project.bgColorClass, 'flex-shrink-0 w-2.5 h-2.5 rounded-full']" aria-hidden="true" />
@@ -133,7 +133,7 @@
                     <span>
                       {{ project.title }}
                       {{ ' ' }}
-                      <span class="text-gray-500 font-normal">in {{ project.team }}</span>
+                      <span class="text-gray-500 font-normal">in {{ project.application }}</span>
                     </span>
                   </a>
                 </div>
@@ -150,17 +150,21 @@
                     />
                   </div>
                   <span
-                    v-if="project.totalMembers > project.members.length"
+                    v-if="project.members.length > project.members.length"
                     class="flex-shrink-0 text-xs leading-5 font-medium"
-                    >+{{ project.totalMembers - project.members.length }}</span
+                    >+{{ project.members.length }}</span
                   >
+                  <span v-else class="flex-shrink-0 text-xs leading-5 font-medium">{{ project.members.length }}</span>
                 </div>
               </td>
               <td class="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
-                {{ project.lastUpdated }}
+                {{ project.created }}
               </td>
               <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                <a :href="`/edit-project/${project['_id']}`" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+              </td>
+              <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium" @click="deleteProject(project['_id'])">
+                delete
               </td>
             </tr>
           </tbody>
@@ -171,49 +175,16 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { ChevronRightIcon, DotsVerticalIcon } from '@heroicons/vue/solid';
+import { useProjectStore } from '../stores/project-store';
 
-const projects = reactive([
-  {
-    id: 1,
-    title: 'GraphQL API',
-    initials: 'GA',
-    team: 'Engineering',
-    members: [
-      {
-        name: 'Dries Vincent',
-        handle: 'driesvincent',
-        imageUrl:
-          'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'Lindsay Walton',
-        handle: 'lindsaywalton',
-        imageUrl:
-          'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'Courtney Henry',
-        handle: 'courtneyhenry',
-        imageUrl:
-          'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-      {
-        name: 'Tom Cook',
-        handle: 'tomcook',
-        imageUrl:
-          'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      },
-    ],
-    totalMembers: 12,
-    lastUpdated: 'March 17, 2020',
-    pinned: true,
-    bgColorClass: 'bg-pink-600',
-  },
-]);
-const pinnedProjects = projects.filter((project) => project.pinned);
+const projectStore = useProjectStore();
+const pinnedProjects = projectStore.projects.filter((project) => project.pinned);
+const deleteProject = (uuid: string) => {
+  projectStore.deleteProject(uuid);
+  projectStore.fetchAllProjects();
+};
 </script>
 
 <style scoped></style>

@@ -146,9 +146,11 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { MenuAlt1Icon } from '@heroicons/vue/outline';
 import { SearchIcon } from '@heroicons/vue/solid';
 import { usePMDashStore } from '../stores/pmdash-store';
+import { useProjectStore } from '../stores/project-store';
 
 const router = useRouter();
-const pmDashStore = usePMDashStore();
+const pmdashStore = usePMDashStore();
+const projectStore = useProjectStore();
 
 const loading = ref(true);
 const loadingError = ref(false);
@@ -156,8 +158,9 @@ const loadingError = ref(false);
 const getData = async () => {
   try {
     loading.value = true;
-    pmDashStore.searchAllMembers();
-    pmDashStore.searchAllTeams();
+    pmdashStore.fetchAllMembers();
+    pmdashStore.fetchAllTeams();
+    projectStore.fetchAllProjects();
   } catch (error) {
     loadingError.value = true;
   } finally {

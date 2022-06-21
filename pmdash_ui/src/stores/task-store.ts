@@ -5,7 +5,7 @@ import Task from '../models/task';
 export const useTaskStore = defineStore('daseboard', {
   state: () => ({
     task: {} as Task,
-    taskList: [] as Task[],
+    tasks: [] as Task[],
   }),
   getters: {
     // finishedTodos(state) {
@@ -24,20 +24,25 @@ export const useTaskStore = defineStore('daseboard', {
     // },
   },
   actions: {
-    async searchTaskByID(uuid: string) {
-      const resp = await PMDASH_API_CLIENT.get(`tasks/search-by-id?uuid${uuid}`);
-      console.log(resp);
-    },
-    async searchAllTasksOfProject(uuid: string) {
-      const resp = await PMDASH_API_CLIENT.get(`tasks/search-all?uuid${uuid}`);
-      console.log(resp);
+    async fetchAlltasks() {
+      const resp = await PMDASH_API_CLIENT.get(`tasks/fetch-all-tasks`);
+      this.tasks = resp.data;
+      console.log('tasks: ', resp);
     },
     async createTask(task: Task) {
-      const resp = await PMDASH_API_CLIENT.post(`tasks/create`);
+      const resp = await PMDASH_API_CLIENT.post(`tasks/create`, task);
+      console.log(resp);
+    },
+    async searchForTask(uuid: string) {
+      const resp = await PMDASH_API_CLIENT.get(`tasks/search-for-task?uuid${uuid}`);
+      console.log(resp);
+    },
+    async searchAllTasks(uuid: string) {
+      const resp = await PMDASH_API_CLIENT.get(`tasks/search-all-tasks?uuid${uuid}`);
       console.log(resp);
     },
     async updateTask(uuid: string, {}) {
-      const resp = await PMDASH_API_CLIENT.patch(`tasks/update?uuid=${uuid}`);
+      const resp = await PMDASH_API_CLIENT.put(`tasks/update?uuid=${uuid}`);
       console.log(resp);
     },
     async deleteTask(uuid: string) {

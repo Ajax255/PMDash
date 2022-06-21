@@ -1,13 +1,16 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Status } from '../enums/status';
+import Member from './member';
 import Task from './task';
 
 export default class Project {
-  _id = uuidv4();
   title = 'test';
   application = '';
   description = 'test area';
-  members: string[] = [];
+  initials = '';
+  pinned = false;
+  bgColorClass = '';
+  members: Member[] = [];
   created = new Date();
   status = Status.open;
   tasks: Task[] = [];
