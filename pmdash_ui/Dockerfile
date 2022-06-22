@@ -17,4 +17,6 @@ COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 EXPOSE 4040
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/bin/sh", "-c", "exec nginx -g 'daemon off;';"]
+
+WORKDIR /usr/share/nginx/html

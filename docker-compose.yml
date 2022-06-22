@@ -7,8 +7,6 @@ services:
       - "${UI_HOST_EXPOSED}:${UI_PORT_EXPOSED}"
     expose:
       - ${UI_PORT_EXPOSED}
-    environment:
-      - API_URL=${API_URL}
     mem_limit: ${UI_MEM_LIMIT}
     networks:
       - pmdash
@@ -34,14 +32,33 @@ services:
     image: mongo:latest
     container_name: pmdash-mongo
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=pmdash
     ports:
       - ${MONGO_HOST_EXPOSED}:${MONGO_PORT_EXPOSED}
     volumes:
       - mongodb_data_container:/data/db
     networks:
       - pmdash
+            
+  mongo-express:
+      image: mongo-express
+      container_name: pmdash-mongo-express
+      environment:
+          - ME_CONFIG_MONGODB_SERVER=${MONGO_URL}
+          - ME_CONFIG_MONGODB_PORT=${MONGO_PORT_EXPOSED}
+          - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
+          - ME_CONFIG_MONGODB_AUTH_USERNAME=${MONGO_ROOT_USERNAME}
+          - ME_CONFIG_MONGODB_AUTH_PASSWORD=${MONGO_ROOT_PASSWORD}
+          - ME_CONFIG_BASICAUTH_USERNAME=${MONGOEXPRESS_LOGIN}
+          - ME_CONFIG_BASICAUTH_PASSWORD=${MONGOEXPRESS_PASSWORD}
+      depends_on:
+          - pmdash-mongo
+      ports:
+        - "8888:8081"
+      networks:
+        - pmdash
 
 volumes:
   mongodb_data_container:

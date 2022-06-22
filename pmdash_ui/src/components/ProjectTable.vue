@@ -246,8 +246,8 @@ defineEmits(['openProjectModal']);
 const projectStore = useProjectStore();
 const pinnedProjects = projectStore.projects.filter((project) => project.pinned);
 
-const showDate = (date: string) => {
-  return new Date(date).toLocaleString();
+const showDate = (date: any) => {
+  return new Date(date.toLocaleString()).toLocaleString();
 };
 
 const deleteProject = async (uuid: string) => {

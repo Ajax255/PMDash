@@ -348,7 +348,7 @@ defineEmits(['openSideBar', 'closeSideBar', 'openTeamModal']);
 //   { name: 'Recent', href: '#', icon: ClockIcon, current: false },
 // ];
 
-const searchTerm = ref('test');
+const searchTerm = ref('');
 
 const search = () => {
   projectStore.searchAllProjects(searchTerm.value, ['title', 'application', 'description', 'initials', 'status']);

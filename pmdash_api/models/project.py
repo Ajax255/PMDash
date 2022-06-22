@@ -16,7 +16,7 @@ class Project(BaseModel):
     pinned = False
     bgColorClass : str
     members: Union[List[Member], None] = []
-    created: datetime
+    created:  Union[datetime, None] = None
     status: str
     tasks: Union[List[Task], None] = []
     research: Union[List[Task], None] = []

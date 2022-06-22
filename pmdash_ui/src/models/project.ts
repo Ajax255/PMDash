@@ -11,7 +11,7 @@ export default class Project {
   pinned = false;
   bgColorClass = '';
   members: Member[] = [];
-  created = new Date().toLocaleString();
+  created = new Date()
   status = Status.open;
   tasks: Task[] = [];
   research: Task[] = [];
