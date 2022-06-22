@@ -57,6 +57,7 @@ services:
           - pmdash-mongo
       ports:
         - "8888:8081"
+      mem_limit: ${MONGOEXPRESS_MEM_LIMIT}
       networks:
         - pmdash
 
