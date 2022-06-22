@@ -9,16 +9,16 @@ class Task(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     title: str
     type: str
-    priority: str 
-    lables: str 
-    sprint: str 
-    status: str 
-    discription: str 
-    attachments: List[str] 
-    subTaskes: List[str] 
-    assigned: str 
-    created: datetime 
-    subTasks: List['Task'] 
+    priority: str
+    lables: str
+    sprint: str
+    status: str
+    discription: str
+    attachments: List[str]
+    subTaskes: List[str]
+    assigned: str
+    created: datetime
+    subTasks: List['Task']
 
     class Config:
         allow_population_by_field_name = True

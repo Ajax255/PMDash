@@ -114,8 +114,11 @@
                                 <MenuItem
                                   v-slot="{ active }"
                                   @click="
-                                    $emit('openTeamsModal');
-                                    $emit('closeSideBar');
+                                    $emit('openTeamModal', {
+                                      modalName: 'team-modal',
+                                      mode: ModalMode.edit,
+                                      uuid: team._id,
+                                    })
                                   "
                                 >
                                   <div
@@ -260,8 +263,11 @@
                         <MenuItem
                           v-slot="{ active }"
                           @click="
-                            $emit('openTeamsModal');
-                            $emit('closeSideBar');
+                            $emit('openTeamModal', {
+                              modalName: 'team-modal',
+                              mode: ModalMode.edit,
+                              uuid: team._id,
+                            })
                           "
                         >
                           <div
@@ -305,8 +311,10 @@
           type="button"
           class="w-28 mx-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 sm:ml-3"
           @click="
-            $emit('openTeamsModal');
-            $emit('closeSideBar');
+            $emit('openTeamModal', {
+              modalName: 'team-modal',
+              mode: ModalMode.create,
+            })
           "
         >
           Create Team
@@ -326,12 +334,13 @@ import { usePMDashStore } from '../stores/pmdash-store';
 import { useProjectStore } from '../stores/project-store';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { TrashIcon, PencilIcon } from '@heroicons/vue/outline';
+import { ModalMode } from '../enums/modal-mode';
 
 const pmdashStore = usePMDashStore();
 const projectStore = useProjectStore();
 
 defineProps<{ sideBarOpen: boolean }>();
-defineEmits(['openSideBar', 'closeSideBar', 'openTeamsModal']);
+defineEmits(['openSideBar', 'closeSideBar', 'openTeamModal']);
 
 // const navigation = [
 //   { name: 'Home', href: '#', icon: HomeIcon, current: true },

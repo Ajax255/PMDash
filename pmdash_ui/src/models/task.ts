@@ -3,6 +3,7 @@ import { Status } from '../enums/status';
 import { Priority } from '../enums/priority';
 
 export default class Task {
+  _id!:string
   title = '';
   type = Type.task;
   priority = Priority.low;

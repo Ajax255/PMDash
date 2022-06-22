@@ -7,7 +7,6 @@ from fastapi import APIRouter, Body, HTTPException, Query, status
 from fastapi.responses import JSONResponse
 from dotenv import load_dotenv, find_dotenv
 from fastapi.encoders import jsonable_encoder
-from utilities.utils import create_list
 
 import os
 import wrappers.mongodb as mongodb
@@ -112,7 +111,7 @@ async def create_team(team: Team = Body(...)):
 
 
 @router.get('/search-for-team', response_description="Get a single Team", response_model=Team)
-async def search_for_one_team(searchTerm: str, fields: list[str]):
+async def search_for_one_team(searchTerm: str, fields: list[str] = Query(None)):
     query = {}
 
     if fields is not None:
@@ -170,3 +169,12 @@ async def delete_team(uuid: str):
     return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content="delete")
 
     # raise HTTPException(status_code=404, detail=f"Team {uuid} not found")
+
+
+def create_list(response_list):
+    converted_list = []
+
+    for res in response_list:
+        converted_list.append(res)
+
+    return converted_list

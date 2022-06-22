@@ -66,19 +66,40 @@
                           </div>
 
                           <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="application" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                              Area of Application
+                            <label for="type" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Type </label>
+                            <div class="mt-1 sm:mt-0 sm:col-span-2">
+                              <select
+                                id="type"
+                                v-model="taskStore.task.type"
+                                autocomplete="type"
+                                class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+                              >
+                                <option>{{ Type.task }}</option>
+                                <option>{{ Type.bug }}</option>
+                                <option>{{ Type.epic }}</option>
+                                <option>{{ Type.research }}</option>
+                                <option>{{ Type.story }}</option>
+                                <option>{{ Type.subTask }}</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+                            <label for="priority" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
+                              Type
                             </label>
                             <div class="mt-1 sm:mt-0 sm:col-span-2">
                               <select
-                                id="application"
-                                v-model="taskStore.task.application"
-                                autocomplete="application"
+                                id="priority"
+                                v-model="taskStore.task.priority"
+                                autocomplete="priority"
                                 class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                               >
-                                <option>Software Engineering</option>
-                                <option>Human Resources</option>
-                                <option>Costumer Success</option>
+                                <option>{{ Priority.critical }}</option>
+                                <option>{{ Priority.high }}</option>
+                                <option>{{ Priority.medium }}</option>
+                                <option>{{ Priority.low }}</option>
+                                <option>{{ Priority.trivial }}</option>
                               </select>
                             </div>
                           </div>
@@ -90,27 +111,11 @@
                             <div class="mt-1 sm:mt-0 sm:col-span-2">
                               <textarea
                                 id="discription"
-                                v-model="taskStore.task.description"
+                                v-model="taskStore.task.discription"
                                 rows="3"
                                 class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
                               />
-                              <p class="mt-2 text-sm text-gray-500">Describe your task</p>
-                            </div>
-                          </div>
-
-                          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="members" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                              Memebers
-                            </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                              <select
-                                id="members"
-                                class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                              >
-                                <option>Anthony</option>
-                                <option>Gage</option>
-                                <option>Corbin</option>
-                              </select>
+                              <p class="mt-2 text-sm text-gray-500">Describe your project</p>
                             </div>
                           </div>
                         </div>
@@ -144,10 +149,11 @@
 </template>
 
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
 import { useTaskStore } from '../stores/task-store';
 import { Dialog, DialogPanel, TransitionChild, TransitionRoot } from '@headlessui/vue';
 import { ModalMode } from '../enums/modal-mode';
+import { Type } from '../enums/type';
+import { Priority } from '../enums/priority';
 
 defineProps<{ showTaskModal: boolean }>();
 const emit = defineEmits(['closeTaskModal']);

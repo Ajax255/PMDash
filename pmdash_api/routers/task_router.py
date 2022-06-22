@@ -48,7 +48,7 @@ async def search_for_one(searchTerm: str, fields: list[str] = Query(None)):
 
 
 @router.get('/search-all-tasks', response_description="Get matched Tasks", response_model=List[Task])
-async def search_tasks(searchTerm: Union[str, None] = None, fields: Union[list[str], None] = None):
+async def search_tasks(searchTerm: Union[str, None] = None, fields: List[str] = Query(...)):
     list = []
 
     if fields is not None:

@@ -3,6 +3,7 @@ import Member from './member';
 import Task from './task';
 
 export default class Project {
+  _id!:string
   title = '';
   application = '';
   description = '';

@@ -58,8 +58,8 @@ export const usePMDashStore = defineStore('PMDash', {
       const resp = await PMDASH_API_CLIENT.post(`pmdash/create-team`, JSON.stringify(team));
       return resp;
     },
-    async searchForTeam(uuid: string, fields: string[]) {
-      const resp = await PMDASH_API_CLIENT.get(`pmdash/search-for-team?uuid=${uuid}&fields=${fields}`);
+    async searchForTeam(searchTerm: string, fields: string[]) {
+      const resp = await PMDASH_API_CLIENT.get(`pmdash/search-for-team?searchTerm=${searchTerm}&fields=${fields}`);
       this.team = resp.data;
       return resp;
     },

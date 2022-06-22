@@ -1,6 +1,4 @@
 import os
-import json
-from typing import Dict
 from dotenv import load_dotenv, find_dotenv
 from pymongo import MongoClient
 

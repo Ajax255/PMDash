@@ -16,7 +16,7 @@ class UpdateTask(BaseModel):
     subTaskes: Union[List[str], None]
     assigned: Union[str, None]
     created: Union[datetime, None]
-    subTasks: Union[List['Task'], None]
+    subTasks: Union[List['UpdateTask'], None]
 
     class Config:
         arbitrary_types_allowed = True

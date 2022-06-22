@@ -52,13 +52,11 @@
 
                         <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
                           <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="title" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                              Title
-                            </label>
+                            <label for="name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Name </label>
                             <div class="mt-1 sm:mt-0 sm:col-span-2">
                               <input
-                                id="title"
-                                v-model="pmdashStore.member.title"
+                                id="name"
+                                v-model="pmdashStore.member.name"
                                 type="text"
                                 class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                               />
@@ -66,50 +64,17 @@
                           </div>
 
                           <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="application" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                              Area of Application
-                            </label>
+                            <label for="team" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Team </label>
                             <div class="mt-1 sm:mt-0 sm:col-span-2">
                               <select
-                                id="application"
-                                v-model="pmdashStore.member.application"
-                                autocomplete="application"
+                                id="team"
+                                v-model="pmdashStore.member.handle"
+                                autocomplete="team"
                                 class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
                               >
                                 <option>Software Engineering</option>
                                 <option>Human Resources</option>
                                 <option>Costumer Success</option>
-                              </select>
-                            </div>
-                          </div>
-
-                          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="discription" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                              Discription
-                            </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                              <textarea
-                                id="discription"
-                                v-model="pmdashStore.member.description"
-                                rows="3"
-                                class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-                              />
-                              <p class="mt-2 text-sm text-gray-500">Describe your member</p>
-                            </div>
-                          </div>
-
-                          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="members" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2">
-                              Memebers
-                            </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                              <select
-                                id="members"
-                                class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                              >
-                                <option>Anthony</option>
-                                <option>Gage</option>
-                                <option>Corbin</option>
                               </select>
                             </div>
                           </div>

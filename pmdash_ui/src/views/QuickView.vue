@@ -6,9 +6,9 @@
     <div v-else>
       <side-bar
         :side-bar-open="sideBarOpen"
-        @open-teams-modal="openModal('team-modal', ModalMode.create)"
         @open-side-bar="sideBarOpen = true"
         @close-side-bar="sideBarOpen = false"
+        @open-team-modal="openEditModal"
       />
       <!-- Main column -->
       <div class="lg:pl-64 flex flex-col">
@@ -124,6 +124,7 @@ const getData = async () => {
 };
 
 const openEditModal = (payload: { modalName: string; mode: ModalMode; uuid: string }) => {
+  console.log('rans');
   openModal(payload.modalName, payload.mode, payload.uuid);
 };
 
