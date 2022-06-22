@@ -35,3 +35,12 @@ uvicorn main:app --reload --host 0.0.0.0 --port 5050
 docker build -t pmdash-api .
 ```
 
+## Run Full Poject
+```
+docker-compose up -d
+```
+
+## URLS
+UI: http://localhost:4040/
+API: http://localhost:5050/docs
+Mongo Express: http://localhost:8888
