@@ -41,6 +41,6 @@ docker-compose up -d
 ```
 
 ## URLS
-UI: http://localhost:4040/
-API: http://localhost:5050/docs
-Mongo Express: http://localhost:8888
+- UI: http://localhost:4040/
+- API: http://localhost:5050/docs
+- Mongo Express: http://localhost:8888
