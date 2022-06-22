@@ -6,6 +6,7 @@ export const useProjectStore = defineStore('Project', {
   state: () => ({
     project: {} as Project,
     projects: [] as Project[],
+    projectMode: '',
   }),
   getters: {},
   actions: {
@@ -24,7 +25,13 @@ export const useProjectStore = defineStore('Project', {
       return resp;
     },
     async searchAllProjects(searchTerm: string, fields: string[]) {
-      const resp = await PMDASH_API_CLIENT.get(`projects/search-all-projects?searchTerm=${searchTerm}&fields=${fields}`);
+      let url = `projects/search-all-projects?searchTerm=${searchTerm}`;
+
+      fields.forEach((field) => {
+        url += `&fields=${field}`;
+      });
+      const resp = await PMDASH_API_CLIENT.get(url);
+      this.projects = resp.data;
       return resp;
     },
     async updateProject(uuid: string, project: Project) {

@@ -48,15 +48,17 @@ async def search_for_one(searchTerm: str, fields: list[str] = Query(None)):
 
 
 @router.get('/search-all-projects', response_description="Get matched Projects", response_model=List[Project])
-async def search_projects(searchTerm: Union[str, None] = None, fields: Union[list[str], None] = None):
-    query = {}
+async def search_projects(searchTerm: Union[str, None] = None, fields: List[str] = Query(...)):
+    list = []
 
     if fields is not None:
         for field in fields:
-            query[field] = searchTerm
+            list.append({field: searchTerm})
+
+    query = {'$or': list}
 
     if (projects := await mongodb.find(data_base=DATABASE, collection=PROJECT_COLLECTION, query=query)) is not None:
-        return projects
+        return create_list(projects)
 
     raise HTTPException(status_code=404, detail=f"Project {fields} not found")
 

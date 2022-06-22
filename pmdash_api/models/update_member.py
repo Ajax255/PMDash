@@ -1,12 +1,12 @@
-from typing import Optional
+from typing import Union
 from bson import ObjectId
 from pydantic import BaseModel
 
 
 class UpdateMember(BaseModel):
-    name: Optional[str]
-    handle: Optional[str]
-    imageUrl: Optional[str]
+    name: Union[str, None]
+    handle: Union[str, None]
+    imageUrl: Union[str, None]
 
     class Config:
         arbitrary_types_allowed = True

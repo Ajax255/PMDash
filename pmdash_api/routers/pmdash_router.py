@@ -53,14 +53,16 @@ async def search_for_one_member(searchTerm: str, fields: list[str] = Query(None)
 
 @router.get('/search-all-members', response_description="Get matched Members", response_model=List[Member])
 async def search_all_members(searchTerm: Union[str, None] = None, fields: Union[list[str], None] = None):
-    query = {}
+    list = []
 
     if fields is not None:
         for field in fields:
-            query[field] = searchTerm
+            list.append({field: searchTerm})
+
+    query = {'$or': list}
 
     if (members := await mongodb.find(data_base=DATABASE, collection=MEMBERS_COLLECTION, query=query)) is not None:
-        return members
+        return create_list(members)
 
     raise HTTPException(status_code=404, detail=f"Member {fields} not found")
 
@@ -90,9 +92,8 @@ async def delete_member(uuid: str):
     delete_result = await mongodb.delete_one(data_base=DATABASE, collection=MEMBERS_COLLECTION, query={"_id": uuid})
 
     # if delete_result.deleted_count == 1:
-    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
-
-    # raise HTTPException(status_code=404, detail=f"Member {uuid} not found")
+    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content="delete")
+# raise HTTPException(status_code=404, detail=f"Member {uuid} not found")
 
 
 # team endpoints
@@ -106,7 +107,7 @@ async def list_Teams():
 async def create_team(team: Team = Body(...)):
     team = jsonable_encoder(team)
     new_team = await mongodb.insert(data_base=DATABASE, collection=TEAMS_COLLECTION, insert_doc=team)
-    created_team = await mongodb.find_one({"_id": new_team.inserted_id})
+    created_team = await mongodb.find_one(data_base=DATABASE, collection=TEAMS_COLLECTION, query={"_id": new_team.inserted_id})
     return JSONResponse(status_code=status.HTTP_201_CREATED, content=created_team)
 
 
@@ -126,14 +127,16 @@ async def search_for_one_team(searchTerm: str, fields: list[str]):
 
 @router.get('/search-all-teams', response_description="Get matched Teams", response_model=List[Team])
 async def search_all_teams(searchTerm: Union[str, None] = None, fields: Union[list[str], None] = None):
-    query = {}
+    list = []
 
     if fields is not None:
         for field in fields:
-            query[field] = searchTerm
+            list.append({field: searchTerm})
+
+    query = {'$or': list}
 
     if (teams := await mongodb.find(data_base=DATABASE, collection=TEAMS_COLLECTION, query=query)) is not None:
-        return teams
+        return create_list(teams)
 
     raise HTTPException(status_code=404, detail=f"Team {fields} not found")
 
@@ -164,6 +167,6 @@ async def delete_team(uuid: str):
         data_base=DATABASE, collection=TEAMS_COLLECTION, query={"_id": uuid})
 
     # if delete_result.deleted_count == 1:
-    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
+    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content="delete")
 
     # raise HTTPException(status_code=404, detail=f"Team {uuid} not found")

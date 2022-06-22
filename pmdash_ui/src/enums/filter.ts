@@ -1,5 +1,5 @@
 export enum Filter {
-  all = 'all',
-  finished = 'finished',
-  unfinished = 'unfinished',
+  all = 'All',
+  finished = 'Finished',
+  unfinished = 'Unfinished',
 }

@@ -1,14 +1,13 @@
-from typing import List, Optional
+from typing import List,  Union
 from bson import ObjectId
 from models.member import Member
 from pydantic import BaseModel
 
 
 class UpdateTeam(BaseModel):
-    name: Optional[str]
-    href: Optional[str]
-    bgColorClass: Optional[str]
-    subTasks: Optional[List[Member]]
+    name:  Union[str, None]
+    bgColorClass:  Union[str, None]
+    members: Union[List[Member], None] 
 
     class Config:
         arbitrary_types_allowed = True

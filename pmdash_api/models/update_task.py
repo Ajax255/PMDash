@@ -1,23 +1,22 @@
-from uuid import uuid4
-from typing import List, Optional
+from typing import List, Union
 from datetime import datetime
 from bson import ObjectId
 from pydantic import BaseModel
 
 
 class UpdateTask(BaseModel):
-    title: Optional[str]
-    type: Optional[str]
-    priority: Optional[str]
-    lables: Optional[str]
-    sprint: Optional[str]
-    status: Optional[str]
-    discription: Optional[str]
-    attachments: Optional[List[str]]
-    subTaskes: Optional[List[str]]
-    assigned: Optional[str]
-    created: Optional[datetime]
-    subTasks: Optional[List['Task']]
+    title: Union[str, None]
+    type: Union[str, None]
+    priority: Union[str, None]
+    lables: Union[str, None]
+    sprint: Union[str, None]
+    status: Union[str, None]
+    discription: Union[str, None]
+    attachments: Union[List[str], None]
+    subTaskes: Union[List[str], None]
+    assigned: Union[str, None]
+    created: Union[datetime, None]
+    subTasks: Union[List['Task'], None]
 
     class Config:
         arbitrary_types_allowed = True

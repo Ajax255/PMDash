@@ -41,19 +41,21 @@ async def search_for_one(searchTerm: str, fields: list[str] = Query(None)):
         for field in fields:
             query[field] = searchTerm
 
-    if (task := await mongodb.find_one(data_base=DATABASE, collection=TASKS_COLLECTION, query=query)) is not None:
-        return task
+    if (tasks := await mongodb.find_one(data_base=DATABASE, collection=TASKS_COLLECTION, query=query)) is not None:
+        return create_list(tasks)
 
     raise HTTPException(status_code=404, detail=f"Task {fields} not found")
 
 
 @router.get('/search-all-tasks', response_description="Get matched Tasks", response_model=List[Task])
 async def search_tasks(searchTerm: Union[str, None] = None, fields: Union[list[str], None] = None):
-    query = {}
+    list = []
 
     if fields is not None:
         for field in fields:
-            query[field] = searchTerm
+            list.append({field: searchTerm})
+
+    query = {'$or': list}
 
     if (tasks := await mongodb.find(data_base=DATABASE, collection=TASKS_COLLECTION, query=query)) is not None:
         return tasks
@@ -85,6 +87,6 @@ async def delete_task(uuid: str):
     delete_result = await mongodb.delete_one(data_base=DATABASE, collection=TASKS_COLLECTION, query={"_id": uuid})
 
     # if delete_result.deleted_count == 1:
-    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT)
+    return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content="delete")
 
     # raise HTTPException(status_code=404, detail=f"Task {uuid} not found")

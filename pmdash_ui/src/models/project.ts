@@ -10,7 +10,7 @@ export default class Project {
   pinned = false;
   bgColorClass = '';
   members: Member[] = [];
-  created = new Date();
+  created = new Date().toLocaleString();
   status = Status.open;
   tasks: Task[] = [];
   research: Task[] = [];

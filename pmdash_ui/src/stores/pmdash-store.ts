@@ -5,8 +5,13 @@ import Team from '../models/team';
 
 export const usePMDashStore = defineStore('PMDash', {
   state: () => ({
+    member: {} as Member,
     members: [] as Member[],
+    memberMode: '',
+
+    team: {} as Team,
     teams: [] as Team[],
+    teamMode: '',
   }),
   getters: {},
   actions: {
@@ -22,10 +27,17 @@ export const usePMDashStore = defineStore('PMDash', {
     },
     async searchForMember(searchTerm: string, fields: string[]) {
       const resp = await PMDASH_API_CLIENT.get(`pmdash/search-for-member?searchTerm=${searchTerm}&fields=${fields}`);
+      this.member = resp.data;
       return resp;
     },
-    async searchAllMembers() {
-      const resp = await PMDASH_API_CLIENT.get(`pmdash/search-all-members`);
+    async searchAllMembers(searchTerm: string, fields: string[]) {
+      let url = `pmdash/search-all-members?searchTerm=${searchTerm}`;
+
+      fields.forEach((field) => {
+        url += `&fields=${field}`;
+      });
+      const resp = await PMDASH_API_CLIENT.get(url);
+      this.members = resp.data;
       return resp;
     },
     async updateMember(uuid: string, member: Member) {
@@ -41,7 +53,6 @@ export const usePMDashStore = defineStore('PMDash', {
     async fetchAllTeams() {
       const resp = await PMDASH_API_CLIENT.get(`pmdash/fetch-all-teams`);
       this.teams = resp.data;
-      console.log('teams: ', this.teams);
     },
     async createTeam(team: Team) {
       const resp = await PMDASH_API_CLIENT.post(`pmdash/create-team`, JSON.stringify(team));
@@ -49,10 +60,17 @@ export const usePMDashStore = defineStore('PMDash', {
     },
     async searchForTeam(uuid: string, fields: string[]) {
       const resp = await PMDASH_API_CLIENT.get(`pmdash/search-for-team?uuid=${uuid}&fields=${fields}`);
+      this.team = resp.data;
       return resp;
     },
     async searchAllTeams(searchTerm: string, fields: string[]) {
-      const resp = await PMDASH_API_CLIENT.get(`pmdash/search-all-teams?searchTerm=${searchTerm}&fields=${fields}`);
+      let url = `pmdash/search-all-teams?searchTerm=${searchTerm}`;
+
+      fields.forEach((field) => {
+        url += `&fields=${field}`;
+      });
+      const resp = await PMDASH_API_CLIENT.get(url);
+      this.teams = resp.data;
       return resp;
     },
     async updateTeam(uuid: string, team: Team) {

@@ -4,7 +4,7 @@
     <div v-if="pinnedProjects.length > 0" class="px-4 mt-6 sm:px-6 lg:px-8">
       <h2 class="text-gray-500 text-xs font-medium uppercase tracking-wide">Pinned Projects</h2>
       <ul role="list" class="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-4 mt-3">
-        <li v-for="project in pinnedProjects" :key="project.id" class="relative col-span-1 flex shadow-sm rounded-md">
+        <li v-for="project in pinnedProjects" :key="project.title" class="relative col-span-1 flex shadow-sm rounded-md">
           <div
             :class="[
               project.bgColorClass,
@@ -20,7 +20,7 @@
               <a href="#" class="text-gray-900 font-medium hover:text-gray-600">
                 {{ project.title }}
               </a>
-              <p class="text-gray-500">{{ project.totalMembers }} Members</p>
+              <p class="text-gray-500">{{ project.members.length }} Members</p>
             </div>
             <Menu as="div" class="flex-shrink-0 pr-2">
               <MenuButton
@@ -122,6 +122,10 @@
                 class="pr-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                 scope="col"
               />
+              <th
+                class="pr-6 py-3 border-b border-gray-200 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+                scope="col"
+              />
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-100">
@@ -158,13 +162,69 @@
                 </div>
               </td>
               <td class="hidden md:table-cell px-6 py-3 whitespace-nowrap text-sm text-gray-500 text-right">
-                {{ project.created }}
+                {{ showDate(project.created) }}
               </td>
-              <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium">
-                <a :href="`/edit-project/${project['_id']}`" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-              </td>
-              <td class="px-6 py-3 whitespace-nowrap text-right text-sm font-medium" @click="deleteProject(project['_id'])">
-                <component :is="TrashIcon" aria-hidden="true" class="text-gray-500 mr-3 flex-shrink-0 h-6 w-6" />
+              <td class="py-3 whitespace-nowrap text-right text-sm font-medium relative">
+                <Menu as="div" class="flex-shrink-0 pr-2">
+                  <MenuButton
+                    class="w-8 h-8 text-2xl bg-white inline-flex items-center justify-center text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                  >
+                    <span class="sr-only">Open options</span>
+                    &vellip;
+                  </MenuButton>
+                  <transition
+                    enter-active-class="transition ease-out duration-100"
+                    enter-from-class="transform opacity-0 scale-95"
+                    enter-to-class="transform opacity-100 scale-100"
+                    leave-active-class="transition ease-in duration-75"
+                    leave-from-class="transform opacity-100 scale-100"
+                    leave-to-class="transform opacity-0 scale-95"
+                  >
+                    <MenuItems
+                      class="z-10 mx-3 absolute right-10 top-3 w-48 mt-1 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none"
+                    >
+                      <div class="py-1">
+                        <MenuItem
+                          v-slot="{ active }"
+                          @click="
+                            $emit('openProjectModal', {
+                              modalName: 'project-modal',
+                              mode: ModalMode.edit,
+                              uuid: project._id,
+                            })
+                          "
+                        >
+                          <div
+                            class="flex flex-row content-center justify-end"
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                          >
+                            Edit Project
+                            <component
+                              :is="PencilIcon"
+                              aria-hidden="true"
+                              class="text-gray-700 mr-3 flex-shrink-0 h-5 w-5 ml-2"
+                            />
+                          </div>
+                        </MenuItem>
+                      </div>
+                      <div class="py-1">
+                        <MenuItem v-slot="{ active }" @click="deleteProject(project['_id'])">
+                          <div
+                            class="flex flex-row content-center justify-end"
+                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'block px-4 py-2 text-sm']"
+                          >
+                            Delete Project
+                            <component
+                              :is="TrashIcon"
+                              aria-hidden="true"
+                              class="text-gray-700 mr-3 flex-shrink-0 h-5 w-5 ml-2"
+                            />
+                          </div>
+                        </MenuItem>
+                      </div>
+                    </MenuItems>
+                  </transition>
+                </Menu>
               </td>
             </tr>
           </tbody>
@@ -178,10 +238,18 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue';
 import { ChevronRightIcon, DotsVerticalIcon } from '@heroicons/vue/solid';
 import { useProjectStore } from '../stores/project-store';
-import { TrashIcon } from '@heroicons/vue/outline';
+import { TrashIcon, PencilIcon } from '@heroicons/vue/outline';
+import { ModalMode } from '../enums/modal-mode';
+
+defineEmits(['openProjectModal']);
 
 const projectStore = useProjectStore();
 const pinnedProjects = projectStore.projects.filter((project) => project.pinned);
+
+const showDate = (date: string) => {
+  return new Date(date).toLocaleString();
+};
+
 const deleteProject = async (uuid: string) => {
   await projectStore.deleteProject(uuid);
   await projectStore.fetchAllProjects();
